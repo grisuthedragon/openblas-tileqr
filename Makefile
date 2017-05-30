@@ -1,4 +1,4 @@
-all: OpenBLAS libopenblas_serial.a libopenblas_openmp.a libopenblas_openmp_simple.a tileqr_serial tileqr_openmp tileqr_openmp_single
+all: OpenBLAS libopenblas_serial.a libopenblas_openmp.a libopenblas_openmp_simple.a tileqr_serial tileqr_openmp tileqr_openmp_simple
 
 OpenBLAS: 
 	if [ ! -d OpenBLAS ]; then git clone https://github.com/xianyi/OpenBLAS.git; else cd OpenBLAS; git pull; fi 

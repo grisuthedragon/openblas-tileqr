@@ -24,24 +24,10 @@ libopenblas_openmp_simple.a: OpenBLAS
 	cp libopenblas.a ../libopenblas_openmp_simple.a; \
 	touch ../libopenblas_openmp_simple.a; 
 
-libopenblas_serial_generic.a: OpenBLAS
-	mv OpenBLAS/kernel/power/KERNEL.POWER8 OpenBLAS/kernel/power/KERNEL.POWER8.bak
-	cp KERNEL.POWER8.generic OpenBLAS/kernel/power/KERNEL.POWER8
-	cd OpenBLAS ;\
-	make clean; \
-	make USE_OPENMP=0 USE_THREAD=0 NO_CBLAS=1 NO_LAPACKE=1 ; \
-	cp libopenblas.a ../libopenblas_serial_generic.a; \
-	touch ../libopenblas_serial_generic.a; 
-	mv OpenBLAS/kernel/power/KERNEL.POWER8.bak OpenBLAS/kernel/power/KERNEL.POWER8
-
-
 
 
 tileqr_serial: libopenblas_serial.a
 	$(FC)  -o tileqr_serial -fopenmp tileqr.f90 libopenblas_serial.a -lgomp 
-
-tileqr_serial_generic: libopenblas_serial_generic.a
-	$(FC)  -o tileqr_serial_generic -fopenmp tileqr.f90 libopenblas_serial_generic.a -lgomp 
 
 tileqr_openmp: libopenblas_openmp.a
 	$(FC) -o tileqr_openmp -fopenmp tileqr.f90 libopenblas_openmp.a -lgomp 
@@ -53,7 +39,6 @@ run:
 	./tileqr_serial 5120 5120 256 32
 	./tileqr_openmp 5120 5120 256 32
 	./tileqr_openmp_simple 5120 5120 256 32
-	./tileqr_serial_generic 5120 5120 256 32
 
 clean: 
 	rm -rf OpenBLAS 
